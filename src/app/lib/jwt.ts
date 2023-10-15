@@ -5,12 +5,20 @@ interface SignOption {
 }
 
 const DEFAULT_SIGN_OPTION: SignOption = {
-  expiresIn: "1h",
+  expiresIn: "15m",
 };
+const DEFAULT_REFRESH_SIGN_OPTION: SignOption = {
+  expiresIn: "7d"
+}
 
 export function signJwtAccessToken(payload: JwtPayload, options: SignOption = DEFAULT_SIGN_OPTION) {
   const secret_key = process.env.SECRET_KEY;
   const token = jwt.sign(payload, secret_key!, options);
+  return token;
+}
+export function signJwtRefreshToken(payload: JwtPayload, options: SignOption = DEFAULT_REFRESH_SIGN_OPTION) {
+  const refresh_secret_key = process.env.REFRESH_SECRET_KEY
+  const token = jwt.sign(payload, refresh_secret_key!, options);
   return token;
 }
 
